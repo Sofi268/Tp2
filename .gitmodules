@@ -1,6 +1,3 @@
-[submodule "submodules"]
-	path = submodules
-	url = https://github.com/ICOMP-UNC/so-i-24-Sofi268.git
 [submodule "submodulos/Tp1 SO1"]
 	path = submodulos/Tp1 SO1
 	url = https://github.com/Sofi268/Tp1-SO1.git
