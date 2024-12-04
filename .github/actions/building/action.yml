@@ -1,0 +1,35 @@
+name: "Build"
+description: "Executes a compilation."
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install dependencies
+      shell: bash
+      run: |
+        sudo apt update
+        sudo apt install -y cmake gcc g++ 
+
+    - name: Install submodulos
+      shell: bash
+      run: |
+        mkdir submodulos
+        git submodule add https://github.com/Sofi268/Tp1-SO1.git submodulos/'Tp1 SO1'
+
+    - name: Compile
+      shell: bash
+      run: | 
+
+        SRC_FOLDER=$(pwd)/src
+        BUILD_DIR=$(pwd)/build
+
+        pip install conan
+
+        mkdir -p $BUILD_DIR 
+        conan profile detect --force
+        conan install . --output-folder=$BUILD_DIR --build=missing
+
+        cd build
+        echo "Running command: cmake -DRUN_COVERAGE=1 .. && make -j2"
+        cmake .. -DCMAKE_TOOLCHAIN_FILE=./build/Release/generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DRUN_COVERAGE=1 -DENABLE_JSON_TEST=OFF
+        make -j2
